@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repair Estimate / Estimado de Reparación · RR & YR Services, LLC</title>
+<style>
+  :root{
+    --blue:#0c447c; --blue-d:#08315a; --teal:#0f6e56; --amber:#b45309;
+    --amber-bg:#fdf2e0; --ink:#1f2933; --muted:#5f5e5a; --line:#d7d5cc;
+    --soft:#f1efe8; --card:#ffffff; --bg:#eef1f5;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.5; padding:18px 12px 60px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  .card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(8,33,60,.10)}
+  header.top{background:var(--blue);color:#fff;padding:22px 24px;border-bottom:4px solid var(--teal)}
+  .shop{font-weight:700;font-size:1.15rem;letter-spacing:.2px}
+  .shop small{display:block;font-weight:400;font-size:.82rem;color:#cfe0f2;margin-top:3px}
+  .mv{font-weight:700;font-size:.82rem;color:#fff;margin-top:6px}
+  .title{font-size:1.5rem;font-weight:800;margin:14px 0 0}
+  .title span{display:block;font-size:.95rem;font-weight:400;color:#cfe0f2}
+  .body{padding:22px 24px}
+  .intro{background:var(--soft);border-radius:10px;padding:12px 14px;font-size:.9rem;color:var(--muted);margin-bottom:20px}
+  .sec{font-weight:700;color:#fff;background:var(--blue);padding:7px 12px;border-radius:7px;margin:22px 0 12px;font-size:.92rem}
+  .sec.teal{background:var(--teal)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+  .grid.three{grid-template-columns:1fr 1fr 1fr}
+  .grid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+  @media(max-width:560px){.grid,.grid.three,.grid.four{grid-template-columns:1fr}}
+  label{display:block;font-size:.74rem;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
+  input,textarea,select{
+    width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:.95rem;
+    font-family:inherit;color:var(--ink);background:#fff
+  }
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+  textarea{resize:vertical;min-height:64px}
+  .field{margin-bottom:4px}
+  .rate{display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:.9rem;margin:8px 0}
+  .rate label{display:inline;text-transform:none;font-weight:400;font-size:.9rem;color:var(--ink);margin:0}
+  table.items{width:100%;border-collapse:collapse;margin-top:6px;font-size:.85rem}
+  table.items th{background:var(--blue);color:#fff;font-weight:600;padding:8px 6px;text-align:left;font-size:.76rem}
+  table.items td{border:1px solid var(--line);padding:0}
+  table.items td input{border:none;border-radius:0}
+  table.items td input:focus{outline-offset:-2px}
+  .totrow{display:flex;justify-content:flex-end;gap:10px;align-items:center;margin-top:10px;font-weight:700}
+  .totrow input{max-width:150px;font-weight:700}
+  .disclosure{background:var(--amber-bg);border:1px solid var(--amber);border-radius:10px;padding:14px 16px;margin:22px 0}
+  .disclosure h3{margin:0 0 8px;color:var(--amber);font-size:.92rem}
+  .opt{display:flex;gap:9px;align-items:flex-start;margin:9px 0;font-size:.86rem}
+  .opt input[type=radio]{width:auto;margin-top:3px;flex:0 0 auto}
+  .opt .amt{width:110px;display:inline-block;padding:3px 6px;margin:0 3px}
+  .legalnote{font-size:.72rem;color:var(--muted);font-style:italic;margin-top:8px}
+  .authtext{font-size:.86rem;color:var(--ink);background:var(--soft);border-radius:8px;padding:12px 14px;margin:8px 0 14px}
+  .sigwrap{border:2px dashed var(--blue);border-radius:10px;background:#fff;position:relative}
+  canvas#pad{width:100%;height:180px;display:block;touch-action:none;border-radius:8px}
+  .sighint{position:absolute;left:14px;top:12px;color:#b9c2cc;font-size:.85rem;pointer-events:none}
+  .sigbar{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+  .clearbtn{background:none;border:1px solid var(--line);color:var(--muted);padding:6px 12px;border-radius:7px;font-size:.82rem;cursor:pointer;width:auto}
+  .submit{width:100%;background:var(--teal);color:#fff;border:none;padding:15px;border-radius:10px;font-size:1.05rem;font-weight:700;cursor:pointer;margin-top:22px}
+  .submit:hover{background:#0c5a47}
+  .submit:disabled{background:#9bbdb2;cursor:not-allowed}
+  .foot{text-align:center;font-size:.72rem;color:var(--muted);padding:16px;border-top:1px solid var(--line)}
+  .err{color:#b3261e;font-size:.85rem;margin-top:8px;display:none}
+  #thanks{display:none;text-align:center;padding:50px 24px}
+  #thanks .chk{width:64px;height:64px;border-radius:50%;background:var(--teal);color:#fff;font-size:34px;line-height:64px;margin:0 auto 16px}
+  #thanks h2{color:var(--blue);margin:0 0 8px}
+  #thanks p{color:var(--muted);max-width:420px;margin:6px auto}
+  .hp{position:absolute;left:-9999px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <header class="top">
+      <div class="shop">RR &amp; YR SERVICES, LLC
+        <small>4407 E Hillsborough Ave · Tampa, FL 33610 · Tel: 954-505-6639</small>
+      </div>
+      <div class="mv">Registro FDACS / FL Reg. No. MV114551</div>
+      <div class="title">Repair Estimate<span>Estimado de Reparación</span></div>
+    </header>
+
+    <div class="body" id="formArea">
+      <div class="intro">
+        Review the estimate, choose an option in the notice, sign below and press <b>Sign &amp; send</b>.
+        We'll receive your signature by email. &nbsp;·&nbsp;
+        Revise el estimado, elija una opción en el aviso, firme abajo y presione <b>Firmar y enviar</b>.
+      </div>
+
+      <form name="estimado-firmado" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" id="estForm">
+        <input type="hidden" name="form-name" value="estimado-firmado">
+        <input type="hidden" name="firma_base64" id="firma_base64">
+        <input type="file" name="firma_imagen" id="firmaFile" style="display:none">
+        <input type="file" name="estimado_pdf" id="estPdfFile" style="display:none">
+        <p class="hp"><label>Do not fill / No llenar: <input name="bot-field"></label></p>
+        <div id="clientBanner" style="display:none;background:#e7f3ee;border:1px solid #1D9E75;border-radius:10px;padding:12px 14px;margin-bottom:14px;color:#1f2933;font-size:.9rem;font-weight:600;">
+          📋 Review your estimate and sign below to accept. · Revise su estimado y firme abajo para aceptar.
+        </div>
+
+        <div class="grid">
+          <div class="field"><label>Date / Fecha</label><input type="date" name="fecha"></div>
+          <div class="field"><label>Estimate No. / No. de estimado</label><input name="estimado_no"></div>
+        </div>
+
+        <div class="sec">Customer · Cliente</div>
+        <div class="grid">
+          <div class="field"><label>Name / Nombre</label><input name="cliente_nombre"></div>
+          <div class="field"><label>Phone / Teléfono</label><input name="cliente_telefono" type="tel"></div>
+          <div class="field"><label>Customer email / Email del cliente</label><input name="cliente_email" type="email"></div>
+          <div class="field"><label>Payment / Forma de pago</label><input name="forma_pago"></div>
+        </div>
+
+        <div class="sec teal">Vehicle · Vehículo</div>
+        <div class="grid four">
+          <div class="field"><label>Year / Año</label><input name="v_ano"></div>
+          <div class="field"><label>Make / Marca</label><input name="v_marca"></div>
+          <div class="field"><label>Model / Modelo</label><input name="v_modelo"></div>
+          <div class="field"><label>Odometer / Millaje</label><input name="v_millaje"></div>
+          <div class="field"><label>Tag / Placa</label><input name="v_placa"></div>
+          <div class="field"><label>VIN</label><input name="v_vin"></div>
+        </div>
+
+        <div class="sec teal">Problem / Requested work · Problema / Trabajo solicitado</div>
+        <textarea name="descripcion_trabajo" placeholder="Describe the problem or work / Describa el problema o el trabajo"></textarea>
+
+        <div class="rate">
+          <span style="font-weight:600">Charged by / Cobro:</span>
+          <label><input type="radio" name="tipo_cobro" value="Por hora" checked style="width:auto"> Hourly / Por hora</label>
+        </div>
+        <div class="grid">
+          <div class="field"><label>Labor / Mano de obra ($ per hour / por hora)</label><input name="tarifa_mano_obra" value="120" inputmode="decimal"></div>
+          <div class="field"><label>Diagnostic / Diagnóstico ($)</label><input name="tarifa_diagnostico" value="150" inputmode="decimal"></div>
+        </div>
+
+        <table class="items" id="itemsTable">
+          <thead><tr>
+            <th style="width:44%">Description / Descripción</th>
+            <th style="width:14%">Hrs / Qty · Horas / Cant.</th>
+            <th style="width:21%">Unit $ / P. unit.</th>
+            <th style="width:21%">Total $</th>
+          </tr></thead>
+          <tbody>
+            <!-- rows injected -->
+          </tbody>
+        </table>
+        <button type="button" class="clearbtn" id="addRow" style="margin-top:8px">+ Add line / Agregar línea</button>
+
+        <!-- TOTALS + TAX -->
+        <div style="margin-top:14px;border-top:1px solid var(--line);padding-top:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-weight:600;font-size:.9rem;">Shop supplies / Insumos $</span>
+            <input name="insumos" id="insumos" inputmode="decimal" placeholder="0.00" style="width:120px;text-align:right;">
+          </div>
+          <div id="taxBox" style="background:var(--soft);border-radius:8px;padding:10px 12px;margin-bottom:10px;">
+            <p style="font-size:.82rem;font-weight:700;margin:0 0 3px;color:var(--ink);">Sales tax / Impuesto sobre ventas:</p>
+            <p style="font-size:.72rem;margin:0 0 8px;color:var(--muted);font-style:italic;">Selected by the shop · Lo selecciona el taller</p>
+            <label style="display:block;text-transform:none;font-weight:400;font-size:.85rem;color:var(--ink);margin-bottom:7px;cursor:pointer;"><input type="radio" name="tax_option" id="taxExempt" value="Labor only - exempt" checked style="width:auto;margin-right:6px;">Labor only — exempt / Solo mano de obra — exento (0%)</label>
+            <label style="display:block;text-transform:none;font-weight:400;font-size:.85rem;color:var(--ink);cursor:pointer;"><input type="radio" name="tax_option" id="taxable" value="Taxable 7.5%" style="width:auto;margin-right:6px;">Includes parts — taxable / Incluye partes — gravable (+7.5%)</label>
+            <label style="display:block;text-transform:none;font-weight:400;font-size:.85rem;color:var(--ink);cursor:pointer;margin-top:7px;"><input type="radio" name="tax_option" id="taxIdOption" value="Tax-exempt - customer tax ID / resale certificate" style="width:auto;margin-right:6px;">Customer with Tax ID / resale certificate — exempt / Cliente con certificado de reventa — exento (0%)</label>
+            <div id="taxIdWrap" style="display:none;margin-top:8px;padding-left:24px;">
+              <input name="customer_tax_id" placeholder="Tax ID / Resale certificate # · Certificado de reventa" style="width:100%;max-width:340px;">
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.9rem;"><span>Subtotal</span><span>$ <span id="subtotalDisp">0.00</span></span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:.9rem;"><span>Tax (7.5%) / Impuesto</span><span>$ <span id="taxDisp">0.00</span></span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0 0;margin-top:6px;border-top:2px solid var(--ink);font-weight:800;font-size:1.1rem;color:var(--blue);"><span>TOTAL</span><span>$ <span id="totalDisp">0.00</span></span></div>
+          <input type="hidden" name="subtotal" id="subtotalHidden">
+          <input type="hidden" name="tax" id="taxHidden">
+          <input type="hidden" name="total" id="total">
+          <input type="hidden" name="labor_only_notice" id="laborOnlyHidden">
+        </div>
+
+        <div id="laborOnlyNotice" style="background:#fbfaf6;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-top:12px;font-size:.76rem;color:var(--muted);line-height:1.55;">
+          <span style="display:block;font-weight:700;color:var(--ink);margin-bottom:4px;">Labor-only notice / Aviso de solo mano de obra:</span>
+          Labor only — no parts, materials, oils, fluids, or other tangible personal property were furnished or used by the repairer in this transaction. Customer-supplied parts only. Per Rule 12A-1.006, F.A.C., this labor charge is not subject to Florida sales tax.
+        </div>
+
+
+        <div class="sec teal">Notes · Notas</div>
+        <label>Shop note — only the shop writes · Nota del taller — solo escribe el taller</label>
+        <textarea name="notas_taller" placeholder="Write your note or update for the customer here / Escriba aquí su nota o novedad para el cliente"></textarea>
+        <label style="margin-top:12px;">Customer reply — the customer answers here · Respuesta del cliente — aquí responde el cliente</label>
+        <textarea name="respuesta_cliente" placeholder="The customer can reply to the shop's note here / El cliente puede responder a la nota del taller"></textarea>
+
+        <div id="shopTools" style="background:#eef3f8;border:1px dashed #0c447c;border-radius:10px;padding:14px;margin:6px 0 18px;">
+          <div style="font-weight:700;color:#0c447c;margin-bottom:5px;">🔧 Shop use only · Para el taller</div>
+          <p style="font-size:.82rem;color:#5f5e5a;margin:0 0 10px;">Fill the estimate above and generate the link to send to the customer. They'll see it as-is, sign, and you'll get the email. · Llene el estimado arriba y genere el enlace para enviárselo al cliente.</p>
+          <button type="button" onclick="buildClientLink()" style="background:#0c447c;color:#fff;border:none;padding:11px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:.9rem;">📤 Generate customer link · Generar enlace para el cliente</button>
+          <div id="linkBox" style="display:none;margin-top:12px;">
+            <input id="linkOut" readonly onclick="this.select()" style="width:100%;font-size:.78rem;padding:8px;border:1px solid #d7d5cc;border-radius:6px;">
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" onclick="copyLink()" style="background:#1D9E75;color:#fff;border:none;padding:8px 14px;border-radius:7px;cursor:pointer;font-size:.85rem;">Copy · Copiar</button>
+              <a id="waLink" href="#" target="_blank" rel="noopener" style="background:#25D366;color:#fff;text-decoration:none;padding:8px 14px;border-radius:7px;font-size:.85rem;">WhatsApp</a>
+            </div>
+          </div>
+        </div>
+        <div class="sec">Authorization &amp; signature · Autorización y firma</div>
+        <div class="authtext">
+          I authorize RR &amp; YR Services, LLC to perform the work described, per the options selected above.
+          / Autorizo a RR &amp; YR Services, LLC a realizar el trabajo descrito según las opciones elegidas arriba.
+        </div>
+        <div class="grid">
+          <div class="field"><label>Printed name / Nombre en letra de molde</label><input name="firma_nombre"></div>
+          <div class="field"><label>Date signed / Fecha de firma</label><input type="date" name="firma_fecha"></div>
+        </div>
+        <label style="margin-top:10px">Sign here / Firme aquí</label>
+        <div class="sigwrap">
+          <canvas id="pad"></canvas>
+          <span class="sighint" id="sighint">Sign with finger or mouse / Firme con el dedo o el mouse</span>
+        </div>
+        <div class="sigbar">
+          <button type="button" class="clearbtn" id="clearSig">Clear / Borrar firma</button>
+          <span style="font-size:.78rem;color:var(--muted)">E-signature is valid / La firma electrónica es válida</span>
+        </div>
+
+        <button type="submit" class="submit" id="submitBtn">Sign &amp; send · Firmar y enviar</button>
+        <div class="err" id="errBox"></div>
+      </form>
+    </div>
+
+    <div id="thanks">
+      <div class="chk">✓</div>
+      <h2>¡Estimado firmado! · Estimate signed!</h2>
+      <p>Gracias. Recibimos su firma y nos pondremos en contacto. / Thank you. We received your signature and will be in touch.</p>
+      <p style="font-size:.78rem">RR &amp; YR Services, LLC · MV114551</p>
+    </div>
+
+    <div class="foot">
+      RR &amp; YR Services, LLC · 4407 E Hillsborough Ave, Tampa, FL 33610 · MV114551<br>
+      Conforme a la Ley de Reparación de Vehículos de Motor de Florida · Fla. Stat. §559.901–559.9221
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- prefill from URL query params (shop can build a pre-filled link) ----
+(function(){
+  const q=new URLSearchParams(location.search);
+  q.forEach((val,key)=>{ const el=document.querySelector('[name="'+key+'"]'); if(el && el.type!=='radio' && el.type!=='hidden') el.value=val; });
+  const today=new Date().toISOString().slice(0,10);
+  if(!document.querySelector('[name=fecha]').value) document.querySelector('[name=fecha]').value=today;
+  if(!document.querySelector('[name=firma_fecha]').value) document.querySelector('[name=firma_fecha]').value=today;
+})();
+
+// ---- itemized rows ----
+const tbody=document.querySelector('#itemsTable tbody');
+function addRow(){
+  const tr=document.createElement('tr');
+  tr.innerHTML='<td><input name="item_desc[]"></td>'+
+               '<td><input name="item_qty[]" inputmode="decimal" placeholder="1" style="text-align:center;"></td>'+
+               '<td><input name="item_unit[]" inputmode="decimal" placeholder="0.00" style="text-align:right;"></td>'+
+               '<td><input name="item_total[]" readonly style="background:#f1efe8;font-weight:600;text-align:right;"></td>';
+  tbody.appendChild(tr);
+}
+for(let i=0;i<4;i++) addRow();
+// First two rows are for HOURS: Diagnostic + Labor (rate pre-filled; shop writes the hours)
+(function(){
+  var rows=document.querySelectorAll('#itemsTable tbody tr');
+  if(rows[0]){ rows[0].querySelector('[name="item_desc[]"]').value='Diagnostic / Diagnóstico (hours · horas)'; rows[0].querySelector('[name="item_unit[]"]').value='150'; var q0=rows[0].querySelector('[name="item_qty[]"]'); if(q0) q0.placeholder='hrs'; }
+  if(rows[1]){ rows[1].querySelector('[name="item_desc[]"]').value='Labor / Mano de obra (hours · horas)'; rows[1].querySelector('[name="item_unit[]"]').value='120'; var q1=rows[1].querySelector('[name="item_qty[]"]'); if(q1) q1.placeholder='hrs'; }
+  if(typeof calcTotals==='function') calcTotals();
+})();
+document.getElementById('addRow').addEventListener('click',addRow);
+
+// ---- totals + tax ----
+function calcTotals(){
+  let sum=0;
+  document.querySelectorAll('#itemsTable tbody tr').forEach(function(tr){
+    var tc=tr.querySelector('[name="item_total[]"]'); if(!tc) return;
+    var uv=tr.querySelector('[name="item_unit[]"]').value.trim(); var u=parseFloat(uv);
+    if(uv===''||isNaN(u)){ tc.value=''; return; }
+    var qv=tr.querySelector('[name="item_qty[]"]').value.trim(); var q=parseFloat(qv); if(qv===''||isNaN(q)){ tc.value=''; return; }
+    var lt=q*u; tc.value=lt.toFixed(2); sum+=lt;
+  });
+  var ins=parseFloat(document.getElementById('insumos').value); if(!isNaN(ins)) sum+=ins;
+  var taxable=document.getElementById('taxable').checked;
+  var tax=taxable?sum*0.075:0, total=sum+tax;
+  document.getElementById('subtotalDisp').textContent=sum.toFixed(2);
+  document.getElementById('taxDisp').textContent=tax.toFixed(2);
+  document.getElementById('totalDisp').textContent=total.toFixed(2);
+  document.getElementById('subtotalHidden').value=sum.toFixed(2);
+  document.getElementById('taxHidden').value=tax.toFixed(2);
+  document.getElementById('total').value=total.toFixed(2);
+  var _le=document.getElementById('taxExempt').checked;
+  document.getElementById('laborOnlyNotice').style.display=_le?'block':'none';
+  var _lh=document.getElementById('laborOnlyHidden'); if(_lh) _lh.value=_le?'Labor only - no parts, materials, oils, fluids, or other tangible personal property were furnished or used by the repairer in this transaction. Customer-supplied parts only. Per Rule 12A-1.006, F.A.C., this labor charge is not subject to Florida sales tax.':'';
+  document.getElementById('taxIdWrap').style.display=document.getElementById('taxIdOption').checked?'block':'none';
+}
+document.addEventListener('input',function(e){ if(e.target.matches('[name^="item_"],#insumos')) calcTotals(); });
+document.querySelectorAll('[name="tax_option"]').forEach(function(r){ r.addEventListener('change',calcTotals); });
+calcTotals();
+
+// ---- shop -> client link & client mode (server-side short link) ----
+var CLIENT_FIELDS=["fecha","estimado_no","cliente_nombre","cliente_telefono","cliente_email","forma_pago","v_ano","v_marca","v_modelo","v_millaje","v_placa","v_vin","descripcion_trabajo","tarifa_mano_obra","tarifa_diagnostico","insumos","customer_tax_id","notas_taller"];
+function buildClientLink(){
+  var form=document.getElementById("estForm");
+  calcTotals();
+  var _tot=parseFloat(document.getElementById('total').value||'0');
+  if(!(_tot>0)){
+    alert("⚠️ El estimado está en $0.00.\n\nEscriba las HORAS (Hrs) del diagnóstico y/o de la mano de obra, o el precio de las piezas, antes de enviar el enlace al cliente.\n\n⚠️ The estimate totals $0.00.\n\nPlease enter the HOURS (Hrs) for diagnostic and/or labor, or the parts prices, before sending the link to the customer.");
+    return;
+  }
+  var payload={};
+  CLIENT_FIELDS.forEach(function(n){ var el=form.querySelector('[name="'+n+'"]'); if(el&&el.value) payload[n]=el.value; });
+  var tax=form.querySelector('[name="tax_option"]:checked'); if(tax) payload["tax_option"]=tax.value;
+  var items=[];
+  document.querySelectorAll("#itemsTable tbody tr").forEach(function(tr){
+    var d=tr.querySelector('[name="item_desc[]"]').value,q=tr.querySelector('[name="item_qty[]"]').value,u=tr.querySelector('[name="item_unit[]"]').value;
+    if(d||q||u) items.push([d,q,u]);
+  });
+  payload["items"]=items;
+  var genBtn=document.querySelector('[onclick="buildClientLink()"]');
+  if(genBtn){ genBtn.disabled=true; genBtn.textContent="Generando... / Generating..."; }
+  fetch("/.netlify/functions/save-estimate",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(!data.id) throw new Error("No ID returned");
+    var url=location.origin+location.pathname+"?id="+data.id;
+    document.getElementById("linkOut").value=url;
+    var wa=document.getElementById("waLink"); if(wa) wa.href="https://wa.me/?text="+encodeURIComponent("RR & YR Services - your estimate / su estimado: "+url);
+    document.getElementById("linkBox").style.display="block";
+    if(genBtn){ genBtn.disabled=false; genBtn.textContent="📤 Generate customer link · Generar enlace para el cliente"; }
+  }).catch(function(e){
+    alert("Error al generar el enlace. Intente de nuevo.\nError generating link. Please try again.\n\n"+e.message);
+    if(genBtn){ genBtn.disabled=false; genBtn.textContent="📤 Generate customer link · Generar enlace para el cliente"; }
+  });
+}
+function copyLink(){ var i=document.getElementById("linkOut"); i.select(); try{document.execCommand("copy");}catch(e){} }
+function lockForClient(){
+  var form=document.getElementById("estForm"), keep=["firma_nombre","firma_fecha","respuesta_cliente"];
+  form.querySelectorAll("input,textarea,select").forEach(function(el){
+    if(el.type==="hidden") return; if(keep.indexOf(el.name)>=0) return;
+    if(el.type==="radio"||el.type==="checkbox"){ el.style.pointerEvents="none"; }
+    else { el.readOnly=true; el.style.background="#f1efe8"; }
+  });
+  var tb=document.getElementById("taxBox"); if(tb){ tb.style.pointerEvents="none"; tb.style.opacity="0.92"; }
+  var st=document.getElementById("shopTools"); if(st) st.style.display="none";
+  var b=document.getElementById("clientBanner"); if(b) b.style.display="block";
+}
+(function initClientMode(){
+  var q=new URLSearchParams(location.search);
+  var estimateId=q.get("id");
+  if(!estimateId) return;
+  // Show loading state
+  var body=document.getElementById("formArea");
+  var loader=document.createElement("div");
+  loader.id="loadingBanner";
+  loader.style.cssText="background:#e7f3ee;border:1px solid #1D9E75;border-radius:10px;padding:12px 14px;margin-bottom:14px;color:#1f2933;font-size:.9rem;font-weight:600;";
+  loader.textContent="⏳ Loading your estimate... · Cargando su estimado...";
+  body.insertBefore(loader, body.firstChild);
+  fetch("/.netlify/functions/get-estimate?id="+encodeURIComponent(estimateId))
+    .then(function(r){ if(!r.ok) throw new Error("Not found"); return r.json(); })
+    .then(function(data){
+      // Fill fields
+      CLIENT_FIELDS.forEach(function(n){
+        if(data[n]!==undefined){
+          var el=document.querySelector('[name="'+n+'"]');
+          if(el && el.type!=="radio" && el.type!=="hidden") el.value=data[n];
+        }
+      });
+      // Fill tax option
+      if(data.tax_option){
+        document.querySelectorAll('[name="tax_option"]').forEach(function(r){ if(r.value===data.tax_option) r.checked=true; });
+      }
+      // Fill items
+      if(data.items && data.items.length){
+        tbody.innerHTML="";
+        data.items.forEach(function(it){ addRow(); var tr=tbody.lastElementChild;
+          tr.querySelector('[name="item_desc[]"]').value=it[0]||"";
+          tr.querySelector('[name="item_qty[]"]').value=it[1]||"";
+          tr.querySelector('[name="item_unit[]"]').value=it[2]||"";
+        });
+      }
+      loader.remove();
+      lockForClient(); calcTotals();
+    }).catch(function(){
+      loader.style.background="#fdecea";
+      loader.style.borderColor="#b3261e";
+      loader.textContent="❌ Could not load estimate. Please ask the shop to resend the link. · No se pudo cargar el estimado. Pida al taller que reenvíe el enlace.";
+    });
+})();
+
+// ---- signature pad ----
+const canvas=document.getElementById('pad'), ctx=canvas.getContext('2d');
+let drawing=false, hasSig=false;
+function resize(){
+  const r=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  const data = hasSig ? canvas.toDataURL() : null;
+  canvas.width=r.width*dpr; canvas.height=r.height*dpr;
+  ctx.scale(dpr,dpr); ctx.lineWidth=2.2; ctx.lineCap='round'; ctx.strokeStyle='#0c447c';
+  if(data){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0,r.width,r.height);img.src=data;}
+}
+window.addEventListener('resize',resize); resize();
+function pos(e){const r=canvas.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
+function start(e){drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault();}
+function move(e){if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();hasSig=true;document.getElementById('sighint').style.display='none';e.preventDefault();}
+function end(){drawing=false;}
+canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',move);window.addEventListener('mouseup',end);
+canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchend',end);
+document.getElementById('clearSig').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);hasSig=false;document.getElementById('sighint').style.display='block';});
+
+// ---- submit (AJAX to Netlify) ----
+const form=document.getElementById('estForm'), err=document.getElementById('errBox'), btn=document.getElementById('submitBtn');
+// ---- Build a printable PDF of the signed estimate ----
+function buildEstimatePDF(){
+  try{
+    var ns=window.jspdf||{}; var JsPDF=ns.jsPDF; if(!JsPDF) return null;
+    var doc=new JsPDF({unit:'pt',format:'letter'});
+    var W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), M=44, y=50;
+    function val(n){var el=document.querySelector('[name="'+n+'"]');return el?(el.value||''):'';}
+    function chk(){ if(y>H-70){ doc.addPage(); y=50; } }
+    function section(l){ chk(); doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(12,68,124);doc.text(l,M,y);y+=14;doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(30,30,30); }
+    function line(t){ chk(); var ls=doc.splitTextToSize(String(t),W-2*M);doc.text(ls,M,y);y+=12.5*ls.length; }
+    doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(20,20,20);doc.text('RR & YR SERVICES LLC',M,y);y+=18;
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(80,80,80);
+    doc.text('4407 E Hillsborough Ave, Tampa, FL 33610  ·  Tel 954-505-6639',M,y);y+=12;
+    doc.text('FDACS Motor Vehicle Repair Reg. No. · Registro: MV114551',M,y);y+=16;
+    doc.setDrawColor(200);doc.line(M,y,W-M,y);y+=18;
+    doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(20,20,20);doc.text('REPAIR ESTIMATE · ESTIMADO DE REPARACION',M,y);y+=15;
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(90,90,90);
+    doc.text('Estimate # · No.: '+(val('estimado_no')||'-')+'      Date · Fecha: '+(val('fecha')||new Date().toLocaleDateString()),M,y);y+=18;
+    section('Customer · Cliente');
+    line('Name · Nombre: '+val('cliente_nombre'));
+    line('Phone · Tel: '+val('cliente_telefono')+'     Email: '+val('cliente_email'));y+=4;
+    section('Vehicle · Vehiculo');
+    line('Year/Make/Model: '+val('v_ano')+' '+val('v_marca')+' '+val('v_modelo')+'    Odometer · Millaje: '+val('v_millaje'));
+    line('Tag · Placa: '+val('v_placa')+'    VIN: '+val('v_vin'));y+=4;
+    section('Work · Trabajo'); line(val('descripcion_trabajo')||'-');y+=4;
+    section('Rates · Tarifas');
+    line('Labor · Mano de obra: $'+(val('tarifa_mano_obra')||'120')+'/hr     Diagnostic · Diagnostico: $'+(val('tarifa_diagnostico')||'150'));y+=8;
+    section('Items · Detalle');
+    chk(); doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(60,60,60);
+    doc.text('Description · Descripcion',M,y); doc.text('Hrs/Qty',W-M-150,y,{align:'right'}); doc.text('Unit $',W-M-80,y,{align:'right'}); doc.text('Total $',W-M,y,{align:'right'}); y+=4;
+    doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=12;
+    doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);doc.setFontSize(9.5);
+    var descs=document.querySelectorAll('[name="item_desc[]"]');
+    descs.forEach(function(d){
+      var tr=d.closest('tr'); if(!tr) return;
+      var desc=d.value||''; var q=tr.querySelector('[name="item_qty[]"]'); var u=tr.querySelector('[name="item_unit[]"]'); var t=tr.querySelector('[name="item_total[]"]');
+      var qty=q?q.value:'', unit=u?u.value:'', tot=t?t.value:'';
+      if(!desc && !unit && !tot) return;
+      chk(); var dl=doc.splitTextToSize(desc||'-', W-2*M-180);
+      doc.text(dl,M,y); doc.text(String(qty||'-'),W-M-150,y,{align:'right'}); doc.text(String(unit||'0.00'),W-M-80,y,{align:'right'}); doc.text(String(tot||'0.00'),W-M,y,{align:'right'});
+      y+=12.5*dl.length+2;
+    });
+    y+=4; chk(); doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=14;
+    doc.setFontSize(10);
+    function totLine(lbl,v){ chk(); doc.setFont('helvetica','normal'); doc.text(lbl,W-M-130,y,{align:'right'}); doc.setFont('helvetica','bold'); doc.text('$'+(v||'0.00'),W-M,y,{align:'right'}); y+=14; }
+    totLine('Subtotal:', val('subtotal')); totLine('Tax · Impuesto:', val('tax')); totLine('TOTAL:', val('total')); y+=6;
+    var to=document.querySelector('input[name="tax_option"]:checked');
+    if(to){ doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(90,90,90); line('Tax option · Opcion de impuesto: '+(to.value||'')); }
+    if(val('notas_taller')){ y+=4; section('Shop note · Nota del taller'); line(val('notas_taller')); }
+    if(val('respuesta_cliente')){ y+=2; section('Customer reply · Respuesta del cliente'); line(val('respuesta_cliente')); }
+    y+=4; section('Authorization & terms accepted · Autorización y términos aceptados');
+    doc.setFontSize(8.5); doc.setTextColor(40,40,40);
+    line('- I authorize RR & YR Services, LLC to perform the work described, per the options selected above. · Autorizo a RR & YR Services, LLC a realizar el trabajo descrito según las opciones elegidas arriba.');
+    if(to && /labor only|solo mano/i.test(to.value||'')){
+      doc.setFont('helvetica','bold'); line('Labor-only notice · Aviso de solo mano de obra:'); doc.setFont('helvetica','normal');
+      line('EN: Labor only - no parts, materials, oils, fluids, or other tangible personal property were furnished or used by the repairer in this transaction. Customer-supplied parts only. Per Rule 12A-1.006, F.A.C., this labor charge is not subject to Florida sales tax.');
+      line('ES: Solo mano de obra - el taller no suministró ni usó piezas, materiales, aceites, fluidos u otra propiedad personal tangible en esta transacción. Solo piezas suministradas por el cliente. Según la Regla 12A-1.006, F.A.C., este cobro de mano de obra no está sujeto al impuesto de ventas de Florida.');
+    }
+    doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(12,90,40);
+    line('AUTHORIZED & ACCEPTED · AUTORIZADO Y ACEPTADO: YES · SI (signed by the customer · firmado por el cliente)');
+    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(40,40,40); y+=4;
+    section('Signature · Firma');
+    try{ var img=canvas.toDataURL('image/png'); chk(); doc.setDrawColor(180); doc.rect(M,y,230,70); doc.addImage(img,'PNG',M+4,y+4,222,62); y+=80; }catch(e){ y+=10; }
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
+    line('Signed by · Firmado por: '+(val('firma_nombre')||val('cliente_nombre'))+'     Date · Fecha: '+(val('firma_fecha')||new Date().toLocaleDateString()));
+    return doc.output('blob');
+  }catch(e){ return null; }
+}
+
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  err.style.display='none';
+  if(!hasSig){err.textContent='Por favor firme antes de enviar. / Please sign before sending.';err.style.display='block';return;}
+  btn.disabled=true; btn.textContent='Enviando... / Sending...';
+  const fd=new FormData(form);
+  fd.delete('firma_base64'); // send the signature as an image file instead of long base64 text
+  canvas.toBlob(function(blob){
+    fd.delete('firma_imagen'); // remove the empty file-input entry so the real signature is the only one
+    if(blob) fd.append('firma_imagen', blob, 'firma-cliente.png');
+    var pdfBlob=buildEstimatePDF();
+    fd.delete('estimado_pdf');
+    if(pdfBlob) fd.append('estimado_pdf', pdfBlob, 'estimado-firmado.pdf');
+    fetch('/',{method:'POST',body:fd})
+      .then(()=>{document.getElementById('formArea').style.display='none';document.getElementById('thanks').style.display='block';window.scrollTo(0,0);})
+      .catch(()=>{err.textContent='No se pudo enviar. Intente de nuevo. / Could not send. Please try again.';err.style.display='block';btn.disabled=false;btn.textContent='Firmar y enviar · Sign & send';});
+  },'image/png');
+});
+</script>
+</body>
+</html>
